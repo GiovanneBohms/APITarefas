@@ -29,9 +29,9 @@ async function consultaTodasTarefas() {
     });
 }
 
-async function consultaTarefasDeUsuario(id) {
+async function consultaTarefasDeUsuario(idUsuario) {
     return new Promise((resolve, reject) => {
-        const sql = `SELECT * FROM tarefa WHERE usuario_id_usuario = ${id};`;
+        const sql = `SELECT * FROM tarefa WHERE usuario_id_usuario = ${idUsuario};`;
         connection.query(sql, (err, results) => {
             if (err) {
                 console.error('Erro ao executar consulta:', err);
@@ -45,7 +45,23 @@ async function consultaTarefasDeUsuario(id) {
     });
 }
 
-consultaTarefasDeUsuario(2)
+async function consultaUsuarioPorId(idUsuario){
+    return new Promise((resolve, reject)=>{
+        const sql = `SELECT nome FROM usuario WHERE id_usuario = ${idUsuario};`
+        connection.query(sql, (err, results)=>{
+            if(err){
+                console.error('erro ao executar consulta de Nome de Usuário')
+            }else{
+                console.log('Nome de usuário');
+                console.log(results)
+                resolve(results);
+            }
+        })
+    })
+}
+
+// consultaTarefasDeUsuario(2)
+// consultaUsuarioPorId(2)
 
 // Rota para obter todas as tarefas
 app.get('/tarefas', async (req, res) => {
@@ -63,7 +79,8 @@ app.get('/tarefas/usuario/:id', async (req, res) => {
     const userId = parseInt(req.params.id);
     try {
         const tarefas = await consultaTarefasDeUsuario(userId);
-        res.status(200).json(tarefas);
+        const usuario = await consultaUsuarioPorId(userId)
+        res.status(200).json([usuario,tarefas]);
     } catch (err) {
         console.error('Erro ao obter tarefas do usuário:', err);
         res.status(500).send('Erro ao obter tarefas do usuário');
