@@ -38,11 +38,14 @@ async function consultaTarefasDeUsuario(id) {
                 reject(err);
             } else {
                 console.log('Todas as tarefas de usuário');
+                console.log(results)
                 resolve(results);
             }
         });
     });
 }
+
+consultaTarefasDeUsuario(2)
 
 // Rota para obter todas as tarefas
 app.get('/tarefas', async (req, res) => {
