@@ -60,10 +60,26 @@ async function consultaUsuarioPorId(idUsuario){
     })
 }
 
-// consultaTarefasDeUsuario(2)
-// consultaUsuarioPorId(2)
+async function inserirNovoUsuario (nome,senha){
+    if ((nome||senha) === undefined){
+        console.log('ola')
+        return  
+    }
+    return new Promise ((resolve, reject)=>{
+        const sql=`INSERT INTO usuario (nome, senha) values ('${nome}', '${senha}');`
+        connection.query(sql, (err, results)=>{
+            if(err){
+                console.error('erro ao inserir novo usuário');
+            }else{
+                console.log('Novo usuário inserido com sucesso');
+                console.log(results);
+                resolve(results)
+            }
+        })
+    })
+}
+// inserirNovoUsuario('Francisco Mathes','DeusSempre')
 
-// Rota para obter todas as tarefas
 app.get('/tarefas', async (req, res) => {
     try {
         const tarefas = await consultaTodasTarefas();
