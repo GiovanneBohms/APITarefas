@@ -62,7 +62,7 @@ async function consultaUsuarioPorId(idUsuario){
 
 async function inserirNovoUsuario (nome,senha){
     if ((nome||senha) === undefined){
-        console.log('ola')
+        console.log('insira nome e senha corretamente')
         return  
     }
     return new Promise ((resolve, reject)=>{
