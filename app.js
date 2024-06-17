@@ -37,7 +37,7 @@ async function consultaTarefasDeUsuario(id) {
                 console.error('Erro ao executar consulta:', err);
                 reject(err);
             } else {
-                console.log('Todas as tarefas:');
+                console.log('Todas as tarefas de usuário');
                 resolve(results);
             }
         });
@@ -49,6 +49,7 @@ app.get('/tarefas', async (req, res) => {
     try {
         const tarefas = await consultaTodasTarefas();
         res.json(tarefas); // Retorna as tarefas como JSON
+        res.status(200).send("sucesso ao obter todas as tarefas")
     } catch (err) {
         console.error('Erro ao obter tarefas:', err);
         res.status(500).send('Erro ao obter tarefas');
@@ -56,15 +57,16 @@ app.get('/tarefas', async (req, res) => {
 });
 
 app.get('/tarefas/usuario/:id', async (req, res) => {
-    const userId = parseInt(req.params.id)
+    const userId = parseInt(req.params.id);
     try {
         const tarefas = await consultaTarefasDeUsuario(userId);
-        res.json(tarefas); // Retorna as tarefas como JSON
+        res.status(200).json(tarefas);
     } catch (err) {
-        console.error('Erro ao obter tarefas:', err);
-        res.status(500).send('Erro ao obter tarefas');
+        console.error('Erro ao obter tarefas do usuário:', err);
+        res.status(500).send('Erro ao obter tarefas do usuário');
     }
 });
+
 
 // Inicia o servidor Express
 app.listen(port, () => {
