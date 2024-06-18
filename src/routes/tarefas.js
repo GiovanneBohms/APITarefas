@@ -1,7 +1,7 @@
 // routes/tarefas.js
 const express = require('express');
 const router = express.Router();
-const db = require('../db/bancoDeDados'); // Importa as funções do banco de dados
+const db = require('../db/bancoDeDados.js');
 
 // Rota para obter todas as tarefas
 router.get('/', async (req, res) => {

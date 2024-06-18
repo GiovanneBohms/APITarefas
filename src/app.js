@@ -4,7 +4,7 @@ const app = express();
 const port = 3000;
 
 // Middleware para processar o corpo das requisições
-app.use(express.json());
+// app.use(express.json());
 
 // Roteamento para as tarefas
 const tarefasRouter = require('./routes/tarefas');
