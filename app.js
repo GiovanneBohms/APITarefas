@@ -98,16 +98,7 @@ async function deletaTarefaPorID(id){
 }
 
 
-app.get('/api/tarefas/:id', async (req, res) => {
-    const tarefaId = parseInt(req.params.id);
-    try {
-        const tarefa = await consultaTarefaPorId(tarefaId);
-        res.status(200).json(tarefa);
-    } catch (err) {
-        console.error('Erro ao obter tarefas do usuário:', err);
-        res.status(500).send('Erro ao obter tarefas do usuário');
-    }
-});
+
 
 
 app.get('/api/tarefas', async (req, res) => {
@@ -122,6 +113,16 @@ app.get('/api/tarefas', async (req, res) => {
     }
 });
 
+app.get('/api/tarefas/:id', async (req, res) => {
+    const tarefaId = parseInt(req.params.id);
+    try {
+        const tarefa = await consultaTarefaPorId(tarefaId);
+        res.status(200).json(tarefa);
+    } catch (err) {
+        console.error('Erro ao obter tarefas do usuário:', err);
+        res.status(500).send('Erro ao obter tarefas do usuário');
+    }
+});
 
 app.post('/api/tarefas',async (req, res) => {
     const {texto }= req.body
