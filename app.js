@@ -47,6 +47,23 @@ async function consultaTarefaPorId(id){
     })
 }
 
+async function atualizaTarefaPorID(text, id){
+
+    return new Promise ((resolve, reject)=>{
+        const sql=`UPDATE tarefa SET text = '${text}' WHERE id_tarefa =${id};`
+        connection.query(sql, (err,results)=>{
+            if(err){
+                console.error('erro ao executar consulta de status', err)
+                reject(err)
+            }else{
+                console.log(`Consulta de Status:${id}  realizada com sucesso`);
+                console.log(results);
+                resolve(results);
+            }
+        })
+    })
+}
+
 async function insereNovaTarefa(texto){
 
     return new Promise ((resolve, reject)=>{
