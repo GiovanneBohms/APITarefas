@@ -116,7 +116,18 @@ app.post('/api/tarefas',async (req, res) => {
     }
 });
 
-
+app.patch('/api/tarefas/:id', async (req,res)=>{
+    try{
+        const idTarefa = req.params.id;
+        const {atualizaTarefa} = req.body;
+        console.log(idTarefa,atualizaTarefa)
+        await atualizaTarefaPorID(atualizaTarefa, idTarefa)
+        res.status(200).json({mensage:"atualização recebida com sucesso"})
+    }catch(err){
+        console.error(err)
+        res.status(500)
+    }
+})
 
 
 
