@@ -64,21 +64,31 @@ async function atualizaTarefaPorID(text, id){
     })
 }
 
-async function insereNovaTarefa(texto){
-
-    return new Promise ((resolve, reject)=>{
-        const sql=`INSERT INTO tarefa (text, status, usuario_id_usuario) VALUES ('${texto}', 'ativo', 2);`
-        connection.query(sql, (err,results)=>{
-            if(err){
-                console.error('erro ao executar consulta de status', err)
-                reject(err)
-            }else{
-                console.log(results);
-                resolve(results);
-            }
-        })
-    })
+async function insereNovaTarefa(texto) {
+    return new Promise((resolve, reject) => {
+        const sqlInsert = 'INSERT INTO tarefa (text, status, usuario_id_usuario) VALUES (?, "ativo", 2)';
+        
+        connection.query(sqlInsert, [texto], (err, insertResults) => {
+            if (err) {
+                console.error('Erro ao executar consulta de inserção', err);
+                reject(err);
+            } else {
+                const sqlSelect = 'SELECT LAST_INSERT_ID() AS id_tarefa';
+                
+                connection.query(sqlSelect, (err, selectResults) => {
+                    if (err) {
+                        console.error('Erro ao executar consulta para obter o último ID inserido', err);
+                        reject(err);
+                    } else {
+                        console.log(selectResults);
+                        resolve(selectResults[0].id_tarefa);
+                    }
+                });
+            }});
+    });
 }
+
+
 
 async function deletaTarefaPorID(id){
 
@@ -128,8 +138,9 @@ app.post('/api/tarefas',async (req, res) => {
     const {texto }= req.body
     console.log('Recebido:', req.body)
     try{
-        await insereNovaTarefa(texto);
-        res.status(200).json({mensage:"nova tarefa inserida com sucesso"});
+        const post = await insereNovaTarefa(texto);
+        const tarefaInserida =await consultaTarefaPorId(post)
+        res.status(201).json(tarefaInserida);
     }catch(erro){
        console.error('erro ao inserir nova tabela', erro);
     }
