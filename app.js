@@ -80,6 +80,25 @@ async function insereNovaTarefa(texto){
     })
 }
 
+async function deletaTarefaPorID(id){
+
+    return new Promise ((resolve, reject)=>{
+        const sql=`DELETE FROM tarefa WHERE id_tarefa = '${id}'`;
+        connection.query(sql, (err,results)=>{
+            if(err){
+                console.error('erro ao executar consulta de status', err)
+                reject(err)
+            }else{
+                
+                console.log(results);
+                resolve(results);
+            }
+        })
+    })
+}
+
+// deletaTarefaPorID(18)
+
 app.get('/api/tarefas/:id', async (req, res) => {
     const tarefaId = parseInt(req.params.id);
     try {
@@ -119,9 +138,9 @@ app.post('/api/tarefas',async (req, res) => {
 app.patch('/api/tarefas/:id', async (req,res)=>{
     try{
         const idTarefa = req.params.id;
-        const {atualizaTarefa} = req.body;
-        console.log(idTarefa,atualizaTarefa)
-        await atualizaTarefaPorID(atualizaTarefa, idTarefa)
+        const {texto} = req.body;
+        console.log(idTarefa,texto)
+        await atualizaTarefaPorID(texto, idTarefa)
         res.status(200).json({mensage:"atualização recebida com sucesso"})
     }catch(err){
         console.error(err)
@@ -138,8 +157,9 @@ app.listen(port, () => {
 });
 
 const urlRotas = [
-    {endpoints:'http://localhost:3000/api/tarefas?q=pendente',tipo: 'get'},
-    {endpoints:'http://localhost:3000/api/tarefas/2',tipo:'get'},
-    {endpoints:'http://localhost:3000/api/tarefas',tipo:'post: {"texto": "inserir nova tarefa aqui"}'}
+    {endpoints:'http://localhost:3000/api/tarefas?q=status',tipo: 'get possibilidades de status: Ativo, Pendente, Conluído'},
+    {endpoints:'http://localhost:3000/api/tarefas/:id',tipo:'get id: valor inteiro' },
+    {endpoints:'http://localhost:3000/api/tarefas',tipo:'post: {"texto": "inserir nova tarefa aqui"}'},
+    {endpoints:'/api/tarefas/:id',tipo:'patch: {"texto": "atualizar tarefa aqui"}'}
 ]
 console.table(urlRotas)
