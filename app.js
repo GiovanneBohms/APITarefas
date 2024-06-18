@@ -29,6 +29,26 @@ async function consultaTodasTarefas() {
     });
 }
 
+
+async function consultaTarefaPorStatus(status){
+
+    return new Promise ((resolve, reject)=>{
+        const sql=`SELECT * FROM tarefa WHERE status = '${status}'`
+        connection.query(sql, (err,results)=>{
+            if(err){
+                console.error('erro ao executar consulta de status', err)
+                reject(err)
+            }else{
+                console.log(`Consulta de Status:${status}  realizada com sucesso`);
+                console.log(results);
+                resolve(results);
+            }
+        })
+    })
+}
+
+consultaTarefaPorStatus('ativo')
+
 async function consultaTarefasDeUsuario(idUsuario) {
     return new Promise((resolve, reject) => {
         const sql = `SELECT * FROM tarefa WHERE usuario_id_usuario = ${idUsuario};`;
