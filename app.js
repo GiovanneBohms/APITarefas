@@ -33,7 +33,7 @@ async function consultaTodasTarefas() {
 async function consultaTarefaPorStatus(status){
 
     return new Promise ((resolve, reject)=>{
-        const sql=`SELECT * FROM tarefa WHERE status = '${status}'`
+        const sql=`SELECT * FROM tarefa WHERE status ='${status}'`
         connection.query(sql, (err,results)=>{
             if(err){
                 console.error('erro ao executar consulta de status', err)
@@ -64,7 +64,7 @@ async function consultaTarefaPorId(id){
     })
 }
 
-consultaTarefaPorId(2)
+
 
 async function consultaTarefasDeUsuario(idUsuario) {
     return new Promise((resolve, reject) => {
@@ -116,7 +116,7 @@ async function inserirNovoUsuario (nome,senha){
     })
 }
 
-app.get('/tarefas', async (req, res) => {
+app.get('/api/tarefas', async (req, res) => {
     try {
         const tarefas = await consultaTodasTarefas();
         res.status(200).json(tarefas)
@@ -126,7 +126,7 @@ app.get('/tarefas', async (req, res) => {
     }
 });
 
-app.get('/tarefas/:id', async (req, res) => {
+app.get('/api/tarefas/:id', async (req, res) => {
     const tarefaId = parseInt(req.params.id);
     try {
         const tarefa = await consultaTarefaPorId(tarefaId);
@@ -137,17 +137,19 @@ app.get('/tarefas/:id', async (req, res) => {
     }
 });
 
-app.get('/tarefas/status', async (req, res) => {
-    const status = req.query.q;
+
+app.get('/api/tarefa', async (req, res) => {
     try {
-        const statusFiltrados = await consultaTarefaPorStatus(status);
-        console.log(typeof statusFiltrados);
-        res.status(200).json(statusFiltrados); // Enviar statusFiltrados diretamente, assumindo que já seja um objeto ou array
+        const termoDeBusca = req.query.q;
+        const tarefaPorStatus = await consultaTarefaPorStatus(termoDeBusca);
+        res.status(200).json(tarefaPorStatus);
     } catch (err) {
-        console.error("Erro em /api/tarefas", err);
-        res.status(500).send('Erro ao verificar status: ' + err.message); // Enviar mensagem de erro detalhada
+        console.error('Erro ao buscar tarefas por status:', err);
+        res.status(500).send('Erro ao buscar tarefas por status');
     }
 });
+
+// consultaTarefaPorStatus('ativo')
 
 app.get('/tarefas/usuario/:id', async (req, res) => {
     const userId = parseInt(req.params.id);
@@ -167,3 +169,6 @@ app.get('/tarefas/usuario/:id', async (req, res) => {
 app.listen(port, () => {
     console.log(`Servidor online na porta ${port}`);
 });
+
+const urlRotas = ['http://localhost:3000/tarefas','ola']
+console.table(urlRotas)
