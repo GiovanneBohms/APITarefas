@@ -97,7 +97,6 @@ async function deletaTarefaPorID(id){
     })
 }
 
-// deletaTarefaPorID(18)
 
 app.get('/api/tarefas/:id', async (req, res) => {
     const tarefaId = parseInt(req.params.id);
@@ -115,13 +114,13 @@ app.get('/api/tarefas', async (req, res) => {
     try {
         const termoDeBusca = req.query.q;
         const tarefaPorStatus = await consultaTarefaPorStatus(termoDeBusca);
+        console.log(termoDeBusca)
         res.status(200).json(tarefaPorStatus);
     } catch (err) {
         console.error('Erro ao buscar tarefas por status:', err);
         res.status(500).send('Erro ao buscar tarefas por status');
     }
 });
-
 
 
 app.post('/api/tarefas',async (req, res) => {
@@ -168,9 +167,9 @@ app.listen(port, () => {
 });
 
 const urlRotas = [
-    {endpoints:'http://localhost:3000/api/tarefas?q=status',tipo: 'get possibilidades de status: Ativo, Pendente, Conluído'},
-    {endpoints:'http://localhost:3000/api/tarefas/:id',tipo:'get id: valor inteiro' },
-    {endpoints:'http://localhost:3000/api/tarefas',tipo:'post: {"texto": "inserir nova tarefa aqui"}'},
+    {endpoints:'http://localhost:3000/api/tarefas?q=status',tipo: 'get status: ativo, pendente, conluído'},
+    {endpoints:'http://localhost:3000/api/tarefas/:id',tipo:'get id: int' },
+    {endpoints:'http://localhost:3000/api/tarefas',tipo:'post: {"texto": "nova tarefa aqui"}'},
     {endpoints:'/api/tarefas/:id',tipo:'patch: {"texto": "atualizar tarefa aqui"}'},
     {endpoints:'/api/tarefas/:id',tipo:'delete'}
 ]
