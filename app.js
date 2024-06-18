@@ -148,6 +148,17 @@ app.patch('/api/tarefas/:id', async (req,res)=>{
     }
 })
 
+app.delete('/api/tarefas/:id', async (req, res)=>{
+    const idTarefa = req.params.id
+    try{
+            await deletaTarefaPorID(idTarefa)
+            res.sendStatus(200)
+    }catch(err){
+        console.error(err);
+        res.sendStatus(500)
+    }
+    
+})
 
 
 
@@ -160,6 +171,7 @@ const urlRotas = [
     {endpoints:'http://localhost:3000/api/tarefas?q=status',tipo: 'get possibilidades de status: Ativo, Pendente, Conluído'},
     {endpoints:'http://localhost:3000/api/tarefas/:id',tipo:'get id: valor inteiro' },
     {endpoints:'http://localhost:3000/api/tarefas',tipo:'post: {"texto": "inserir nova tarefa aqui"}'},
-    {endpoints:'/api/tarefas/:id',tipo:'patch: {"texto": "atualizar tarefa aqui"}'}
+    {endpoints:'/api/tarefas/:id',tipo:'patch: {"texto": "atualizar tarefa aqui"}'},
+    {endpoints:'/api/tarefas/:id',tipo:'delete'}
 ]
 console.table(urlRotas)
