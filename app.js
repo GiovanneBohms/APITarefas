@@ -46,6 +46,21 @@ async function consultaTarefaPorId(id){
     })
 }
 
+async function insereNovaTarefa(texto){
+
+    return new Promise ((resolve, reject)=>{
+        const sql=`INSERT INTO tarefa (text, status, usuario_id_usuario) VALUES ('${texto}', 'ativo', 2);`
+        connection.query(sql, (err,results)=>{
+            if(err){
+                console.error('erro ao executar consulta de status', err)
+                reject(err)
+            }else{
+                console.log(results);
+                resolve(results);
+            }
+        })
+    })
+}
 
 app.get('/api/tarefas/:id', async (req, res) => {
     const tarefaId = parseInt(req.params.id);
@@ -76,5 +91,7 @@ app.listen(port, () => {
     console.log(`Servidor online na porta ${port}`);
 });
 
-const urlRotas = ['http://localhost:3000/api/tarefas?q=pendente','http://localhost:3000/api/tarefas/2']
+const urlRotas = [
+    {endpoints:'http://localhost:3000/api/tarefas?q=pendente',tipo: 'get'},
+    {endpoints:'http://localhost:3000/api/tarefas/2',tipo:'get'}]
 console.table(urlRotas)
