@@ -152,7 +152,8 @@ app.patch('/api/tarefas/:id', async (req,res)=>{
         const {texto} = req.body;
         console.log(idTarefa,texto)
         await atualizaTarefaPorID(texto, idTarefa)
-        res.status(200).json({mensage:"atualização recebida com sucesso"})
+        const tarefaInserida =await consultaTarefaPorId(idTarefa)
+        res.status(200).json(tarefaInserida)
     }catch(err){
         console.error(err)
         res.status(500)
