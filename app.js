@@ -111,5 +111,7 @@ app.listen(port, () => {
 
 const urlRotas = [
     {endpoints:'http://localhost:3000/api/tarefas?q=pendente',tipo: 'get'},
-    {endpoints:'http://localhost:3000/api/tarefas/2',tipo:'get'}]
+    {endpoints:'http://localhost:3000/api/tarefas/2',tipo:'get'},
+    {endpoints:'http://localhost:3000/api/tarefas',tipo:'post: {"texto": "inserir nova tarefa aqui"}'}
+]
 console.table(urlRotas)
