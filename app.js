@@ -2,6 +2,7 @@ const mysql = require('mysql2');
 const express = require('express');
 const app = express();
 const port = 3000;
+app.use(express.json());
 
 // Configuração da conexão com o banco de dados
 const connection = mysql.createConnection({
@@ -84,6 +85,23 @@ app.get('/api/tarefas', async (req, res) => {
         res.status(500).send('Erro ao buscar tarefas por status');
     }
 });
+
+
+
+app.post('/api/tarefas',async (req, res) => {
+    const {texto }= req.body
+    console.log('Recebido:', req.body)
+    try{
+        await insereNovaTarefa(texto);
+        res.status(200).json({mensage:"nova tarefa inserida com sucesso"});
+    }catch(erro){
+       console.error('erro ao inserir nova tabela', erro);
+    }
+});
+
+
+
+
 
 
 // Inicia o servidor Express
