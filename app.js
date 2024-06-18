@@ -47,7 +47,24 @@ async function consultaTarefaPorStatus(status){
     })
 }
 
+async function consultaTarefaPorId(id){
 
+    return new Promise ((resolve, reject)=>{
+        const sql=`SELECT * FROM tarefa WHERE id_tarefa = '${id}'`
+        connection.query(sql, (err,results)=>{
+            if(err){
+                console.error('erro ao executar consulta de status', err)
+                reject(err)
+            }else{
+                console.log(`Consulta de Status:${id}  realizada com sucesso`);
+                console.log(results);
+                resolve(results);
+            }
+        })
+    })
+}
+
+consultaTarefaPorId(2)
 
 async function consultaTarefasDeUsuario(idUsuario) {
     return new Promise((resolve, reject) => {
@@ -135,7 +152,6 @@ app.get('/tarefas/usuario/:id', async (req, res) => {
 
 
 
-// 
 // Inicia o servidor Express
 app.listen(port, () => {
     console.log(`Servidor online na porta ${port}`);
