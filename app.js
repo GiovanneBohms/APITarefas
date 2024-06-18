@@ -126,6 +126,17 @@ app.get('/tarefas', async (req, res) => {
     }
 });
 
+app.get('/tarefas/:id', async (req, res) => {
+    const tarefaId = parseInt(req.params.id);
+    try {
+        const tarefa = await consultaTarefaPorId(tarefaId);
+        res.status(200).json(tarefa);
+    } catch (err) {
+        console.error('Erro ao obter tarefas do usuário:', err);
+        res.status(500).send('Erro ao obter tarefas do usuário');
+    }
+});
+
 app.get('/tarefas/status', async (req, res) => {
     const status = req.query.q;
     try {
