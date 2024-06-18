@@ -47,7 +47,7 @@ async function consultaTarefaPorStatus(status){
     })
 }
 
-consultaTarefaPorStatus('ativo')
+
 
 async function consultaTarefasDeUsuario(idUsuario) {
     return new Promise((resolve, reject) => {
@@ -98,16 +98,26 @@ async function inserirNovoUsuario (nome,senha){
         })
     })
 }
-// inserirNovoUsuario('Francisco Mathes','DeusSempre')
 
 app.get('/tarefas', async (req, res) => {
     try {
         const tarefas = await consultaTodasTarefas();
-        res.json(tarefas); // Retorna as tarefas como JSON
-        res.status(200).send("sucesso ao obter todas as tarefas")
+        res.status(200).json(tarefas)
     } catch (err) {
         console.error('Erro ao obter tarefas:', err);
         res.status(500).send('Erro ao obter tarefas');
+    }
+});
+
+app.get('/tarefas/status', async (req, res) => {
+    const status = req.query.q;
+    try {
+        const statusFiltrados = await consultaTarefaPorStatus(status);
+        console.log(typeof statusFiltrados);
+        res.status(200).json(statusFiltrados); // Enviar statusFiltrados diretamente, assumindo que já seja um objeto ou array
+    } catch (err) {
+        console.error("Erro em /api/tarefas", err);
+        res.status(500).send('Erro ao verificar status: ' + err.message); // Enviar mensagem de erro detalhada
     }
 });
 
@@ -124,6 +134,8 @@ app.get('/tarefas/usuario/:id', async (req, res) => {
 });
 
 
+
+// 
 // Inicia o servidor Express
 app.listen(port, () => {
     console.log(`Servidor online na porta ${port}`);
