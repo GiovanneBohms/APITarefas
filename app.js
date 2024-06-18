@@ -164,7 +164,7 @@ app.delete('/api/tarefas/:id', async (req, res)=>{
     const idTarefa = req.params.id
     try{
             await deletaTarefaPorID(idTarefa)
-            res.sendStatus(200)
+            res.status(200).json({mensage:"true"})
     }catch(err){
         console.error(err);
         res.sendStatus(500)
