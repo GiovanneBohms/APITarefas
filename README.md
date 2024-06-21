@@ -22,7 +22,7 @@ Para criar o banco de dados localmente, basta utilizar o script SQL fornecido na
 1. Clone este repositório:
 
    ```bash
-   git clone https://github.com/seu-usuario/seu-repositorio.git```
+   git clone https://github.com/GiovanneBohms/APITarefas.git```
 
 2. Instale as dependências do projeto: 
 ```npm install ```
